@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+  db:
+    image: apache/couchdb:2.3
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: ${COUCHDB_USER}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+    volumes:
+      - ./data/couchdb:/opt/couchdb/data:rw
