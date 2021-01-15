@@ -81,3 +81,8 @@ couchdb-setup:
     volumes:
       - ./logs:/logs
       - ./config/ansible:/openwhisk/ansible
+
+networks:
+    default:
+      name: openwhisk
+      driver: bridge
