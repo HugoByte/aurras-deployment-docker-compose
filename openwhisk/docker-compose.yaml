@@ -62,4 +62,9 @@ services:
         - 8001:8000
       links:
         - kafka
-        - kafka-rest      
+        - kafka-rest
+
+  redis:
+    image: redis:2.8
+    ports:
+      - "6379:6379"
