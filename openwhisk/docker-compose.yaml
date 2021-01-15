@@ -68,3 +68,16 @@ services:
     image: redis:2.8
     ports:
       - "6379:6379"
+
+couchdb-setup:
+    image: ddragosd/ansible:2.4.0.0-debian8
+    working_dir: /openwhisk/ansible
+    command: /bin/sh -c "ansible-playbook setup.yml >> /logs/couchdb-setup.log 2>&1 && ansible-playbook couchdb.yml --tags=ini >> /logs/couchdb-setup.log 2>&1 && ansible-playbook initdb.yml wipe.yml -e db_host=db.docker -e openwhisk_home=/openwhisk -e db_prefix=local_ >> /logs/couchdb-setup.log 2>&1"
+    links:
+      - db:db.docker
+    depends_on:
+      - db
+    restart: "no"  
+    volumes:
+      - ./logs:/logs
+      - ./config/ansible:/openwhisk/ansible
