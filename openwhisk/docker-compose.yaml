@@ -121,6 +121,30 @@ couchdb-setup:
       - "2551:2551"
       - "9222:9222"
 
+  apigateway:
+    image: openwhisk/apigateway:nightly
+    networks:
+      - gateway
+    links:
+      - controller:controller.docker
+      - redis:redis.docker
+    environment:
+      - REDIS_HOST=${DOCKER_COMPOSE_HOST}
+      - REDIS_PORT=6379
+      - PUBLIC_MANAGEDURL_PORT=9090
+      - PUBLIC_MANAGEDURL_HOST=${DOCKER_COMPOSE_HOST}
+    depends_on:
+      - controller
+      - redis
+    volumes:
+      - ./config/api-gateway/ssl:/etc/ssl:ro
+      - ./config/api-gateway/generated-conf.d:/etc/api-gateway/generated-conf.d
+    ports:
+      - "80:80"
+      - "31001:31001"
+      - "9000:9000"
+      - "9090:8080"
+
 networks:
     default:
       name: openwhisk
