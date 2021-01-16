@@ -84,7 +84,7 @@ couchdb-setup:
 
   controller:
     image: openwhisk/controller:nightly
-    command: /bin/sh -c "exec /init.sh 0 >> /logs/controller.log 2>&1"
+    command: /bin/sh -c "while ping -c1 db.setup &>/dev/null; do sleep 1; done; echo 'CouchDB Setup Complete!' && exec /init.sh 0 >> /logs/controller.log 2>&1"
     links:
       - db:db.docker
       - couchdb-setup:db.setup
@@ -147,7 +147,7 @@ couchdb-setup:
 
   invoker:
     image: openwhisk/invoker:nightly
-    command: /bin/sh -c "exec /init.sh --id 0 >> /logs/invoker.log 2>&1"
+    command: /bin/sh -c "while ping -c1 db.setup &>/dev/null; do sleep 1; done; sleep 1m && exec /init.sh --id 0 >> /logs/invoker.log 2>&1"
     privileged: true
     pid: "host"
     userns_mode: "host"
