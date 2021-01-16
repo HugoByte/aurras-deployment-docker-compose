@@ -82,6 +82,45 @@ couchdb-setup:
       - ./logs:/logs
       - ./config/ansible:/openwhisk/ansible
 
+  controller:
+    image: openwhisk/controller:nightly
+    command: /bin/sh -c "exec /init.sh 0 >> /logs/controller.log 2>&1"
+    links:
+      - db:db.docker
+      - couchdb-setup:db.setup
+      - kafka:kafka.docker
+      - zookeeper:zookeeper.docker
+    depends_on:
+      - db
+      - kafka
+      - couchdb-setup
+    env_file:
+      - ./docker-whisk-controller.env
+      - ./local.env
+    environment:
+      COMPONENT_NAME: controller
+      PORT: 8888
+      KAFKA_HOSTS: kafka.docker:9092
+      ZOOKEEPER_HOSTS: zookeeper.docker:2181
+      CONFIG_whisk_couchdb_provider: CouchDB
+      CONFIG_whisk_couchdb_protocol: http
+      CONFIG_whisk_couchdb_port: 5984
+      CONFIG_whisk_couchdb_host: db.docker
+      CONFIG_whisk_couchdb_username: ${COUCHDB_USER}
+      CONFIG_whisk_couchdb_password: ${COUCHDB_PASSWORD}
+      CONFIG_akka_remote_netty_tcp_hostname: controller
+      CONFIG_akka_remote_netty_tcp_port: 2551
+      CONFIG_akka_remote_netty_tcp_bindPort: 2551
+      CONFIG_akka_actor_provider: cluster
+      LOADBALANCER_HOST: ${DOCKER_COMPOSE_HOST}
+      LOADBALANCER_HOST_PORT: 31001
+    volumes:
+      - ./logs:/logs
+    ports:
+      - "8888:8888"
+      - "2551:2551"
+      - "9222:9222"
+
 networks:
     default:
       name: openwhisk
