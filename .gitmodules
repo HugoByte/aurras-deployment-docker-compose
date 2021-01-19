@@ -1,3 +1,3 @@
 [submodule ".\\aurras-event-feed-substrate\\aurras-event-feed-substrate-js"]
-	path = .\\aurras-event-feed-substrate\\aurras-event-feed-substrate-js
+	path = ./aurras-event-feed-substrate/aurras-event-feed-substrate-js
 	url = https://github.com/HugoByte/aurras-event-feed-substrate-js
