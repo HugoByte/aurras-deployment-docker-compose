@@ -195,3 +195,6 @@ networks:
     default:
       name: openwhisk
       driver: bridge
+    gateway:
+      name: gateway
+      driver: bridge  
