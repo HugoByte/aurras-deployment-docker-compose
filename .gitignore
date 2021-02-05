@@ -3,3 +3,8 @@ logs/
 
 #Generated Data
 data/
+
+#Ignore Generated Certificates
+*.p12
+*.pem
+*.csr
