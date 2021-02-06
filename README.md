@@ -21,6 +21,11 @@
 
 > docker-compose deployment is used for local development and testing and should not be used for production.  
 
+### Prerequisites
+
+1. [Docker](https://docs.docker.com/engine/install/)
+2. [Docker Compose](https://docs.docker.com/compose/)
+
 ### Deployment Guide
 
 Clone [aurras-deployment-docker-compose](https://github.com/HugoByte/aurras-deployment-docker-compose)
