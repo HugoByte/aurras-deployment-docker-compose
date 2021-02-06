@@ -19,5 +19,45 @@
 # Aurras Docker Compose Deployment Configuration
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
-# License  
+> docker-compose deployment is used for local development and testing and should not be used for production.  
+
+### Deployment Guide
+
+Clone [aurras-deployment-docker-compose](https://github.com/HugoByte/aurras-deployment-docker-compose)
+
+```text
+git clone https://github.com/HugoByte/aurras-deployment-docker-compose
+```
+
+#### Openwhisk
+
+1. Navigate to openwhisk setup directory
+
+```text
+cd aurras-deployment-docker-compose/openwhisk
+```
+
+2. Run docker-compose command to start the services
+
+```text
+docker-compose --project-name openwhisk up -d
+```
+
+#### Event Feed - Substrate
+
+1. Navigate to aurras-event-feed-substrate setup directory
+
+```text
+cd aurras-deployment-docker-compose/aurras-event-feed-substrate
+```
+
+2. Make configuration changes if needed to local.env  
+
+3. Run docker-compose command to start the services
+
+```text
+docker-compose --project-name aurras up -d
+```
+
+### License
 Licensed under [Apache-2.0](./LICENSE)
