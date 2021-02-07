@@ -1,8 +1,8 @@
 version: '3.5'
 services:
   aurras-event-feed-substrate:
-    build: aurras-event-feed-substrate-js
     image: hugobyte/aurras-event-feed-substrate
+    container_name: aurras-event-feed-substrate
     networks:
       - gateway
     external_links:
