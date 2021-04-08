@@ -147,7 +147,7 @@ services:
       - "9090:8080"
   
   kafka-provider:
-    image: openwhisk/kafkaprovider:nigthly
+    image: openwhisk/kafkaprovider:nightly
     command: /bin/sh -c "while ping -c1 db.setup &>/dev/null; do sleep 1; done; sleep 1m && exec /bin/bash -c cd KafkaFeedProvider && python -u app.py >> /logs/kafka-provider.log 2>&1"
     links:
       - db:db.docker
