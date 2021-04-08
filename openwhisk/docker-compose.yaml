@@ -148,14 +148,18 @@ services:
   
   kafka-provider:
     image: openwhisk/kafkaprovider:nigthly
+    command: /bin/sh -c "while ping -c1 db.setup &>/dev/null; do sleep 1; done; sleep 1m && exec /bin/bash -c cd KafkaFeedProvider && python -u app.py >> /logs/kafka-provider.log 2>&1"
     links:
       - db:db.docker
+    depends_on:
+      - db
+      - couchdb-setup
     environment: 
-      DB_URL: db.docker
+      DB_URL: http://db.docker:5984
       DB_USER: ${COUCHDB_USER}
       DB_PASS: ${COUCHDB_PASSWORD}
     ports:
-      - "80:5000"
+      - "5000:5000"
 
   invoker:
     image: openwhisk/invoker:nightly
