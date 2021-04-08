@@ -145,6 +145,17 @@ services:
       - "31001:31001"
       - "9000:9000"
       - "9090:8080"
+  
+  kafka-provider:
+    image: openwhisk/kafkaprovider:nigthly
+    links:
+      - db:db.docker
+    environment: 
+      DB_URL: db.docker
+      DB_USER: ${COUCHDB_USER}
+      DB_PASS: ${COUCHDB_PASSWORD}
+    ports:
+      - "80:5000"
 
   invoker:
     image: openwhisk/invoker:nightly
