@@ -160,6 +160,8 @@ services:
       DB_PASS: ${COUCHDB_PASSWORD}
     ports:
       - "5000:5000"
+    volumes:
+      - ./logs:/logs  
 
   invoker:
     image: openwhisk/invoker:nightly
