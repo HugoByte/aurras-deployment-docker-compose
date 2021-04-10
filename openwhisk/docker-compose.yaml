@@ -148,7 +148,7 @@ services:
   
   kafka-provider:
     image: openwhisk/kafkaprovider:nightly
-    command: /bin/sh -c "while ping -c1 db.setup &>/dev/null; do sleep 1; done; sleep 1m && exec /bin/bash -c cd KafkaFeedProvider && python -u app.py >> /logs/kafka-provider.log 2>&1"
+    command: /bin/sh -c "cd KafkaFeedProvider && while ping -q -c 1 db.setup >/dev/null; do sleep 1; done; python -u app.py >> /logs/kafka-provider.log 2>&1"
     links:
       - db:db.docker
       - couchdb-setup:db.setup
@@ -162,7 +162,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./logs:/logs  
+      - ./logs:/logs
 
   invoker:
     image: openwhisk/invoker:nightly
