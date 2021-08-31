@@ -155,7 +155,8 @@ services:
     depends_on:
       - db
       - couchdb-setup
-    environment: 
+    environment:
+      LOCAL_DEV: "true"
       DB_URL: http://db.docker:5984
       DB_USER: ${COUCHDB_USER}
       DB_PASS: ${COUCHDB_PASSWORD}
