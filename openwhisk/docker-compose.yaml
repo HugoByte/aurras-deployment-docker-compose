@@ -22,6 +22,9 @@ services:
   
   kafka:
     image: wurstmeister/kafka:0.11.0.1
+    networks:
+      - gateway
+      - default
     links:
       - zookeeper
     depends_on:

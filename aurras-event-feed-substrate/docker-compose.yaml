@@ -6,6 +6,7 @@ services:
     networks:
       - gateway
     external_links:
+      - kafka:kafka.docker
       - apigateway:apigateway.docker
     env_file:
       - ./local.env
