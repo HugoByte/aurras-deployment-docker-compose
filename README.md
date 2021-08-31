@@ -56,9 +56,13 @@ docker-compose --project-name openwhisk up -d
 cd aurras-deployment-docker-compose/aurras-event-feed-substrate
 ```
 
-2. Make configuration changes if needed to local.env  
+2. Make configuration changes to local.env  
 
-3. Run docker-compose command to start the services
+3. Generate the Event ID using [`register_event_source.sh`](https://docs.aurras.hugobyte.com/components/event-manager#usage)
+
+4. Update the TOPICS env configaration with the generated uuid
+
+5. Run docker-compose command to start the services  
 
 ```text
 docker-compose --project-name aurras up -d
