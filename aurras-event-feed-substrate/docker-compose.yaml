@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 services:
   aurras-event-feed-substrate:
     image: hugobyte/aurras-event-feed-substrate
@@ -15,9 +15,9 @@ services:
       - ./config:/config
 
 networks:
-    default:
-      name: aurras
-      driver: bridge
-    gateway:
-      name: gateway
-      external: true   
+  default:
+    name: aurras
+    driver: bridge
+  gateway:
+    name: gateway
+    external: true
