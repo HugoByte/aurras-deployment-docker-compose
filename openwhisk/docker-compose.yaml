@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 services:
   db:
     image: apache/couchdb:2.3
@@ -19,7 +19,7 @@ services:
     environment:
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888
       ZOO_MY_ID: 1
-  
+
   kafka:
     image: wurstmeister/kafka:0.11.0.1
     networks:
@@ -56,16 +56,16 @@ services:
       - kafka
 
   kafka-topics-ui:
-      image: landoop/kafka-topics-ui:0.9.3
-      environment:
-        - KAFKA_REST_PROXY_URL=http://kafka-rest:8082
-        - KAFKA_REST_BOOTSTRAP_SERVERS=PLAINTEXT://kafka:9092
-        - PROXY=true
-      ports:
-        - 8001:8000
-      links:
-        - kafka
-        - kafka-rest
+    image: landoop/kafka-topics-ui:0.9.3
+    environment:
+      - KAFKA_REST_PROXY_URL=http://kafka-rest:8082
+      - KAFKA_REST_BOOTSTRAP_SERVERS=PLAINTEXT://kafka:9092
+      - PROXY=true
+    ports:
+      - 8001:8000
+    links:
+      - kafka
+      - kafka-rest
 
   redis:
     image: redis:2.8
@@ -80,7 +80,7 @@ services:
       - db:db.docker
     depends_on:
       - db
-    restart: "no"  
+    restart: "no"
     volumes:
       - ./logs:/logs
       - ./config/ansible:/openwhisk/ansible
@@ -148,7 +148,7 @@ services:
       - "31001:31001"
       - "9000:9000"
       - "9090:8080"
-  
+
   kafka-provider:
     image: openwhisk/kafkaprovider:nightly
     command: /bin/sh -c "cd KafkaFeedProvider && while ping -q -c1 db.setup >/dev/null; do sleep 1; done; python -u app.py >> /logs/kafka-provider.log 2>&1"
@@ -216,9 +216,9 @@ services:
       - "9333:9222"
 
 networks:
-    default:
-      name: openwhisk
-      driver: bridge
-    gateway:
-      name: gateway
-      driver: bridge  
+  default:
+    name: openwhisk
+    driver: bridge
+  gateway:
+    name: gateway
+    driver: bridge
