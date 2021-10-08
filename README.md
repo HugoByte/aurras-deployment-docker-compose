@@ -67,6 +67,15 @@ cd aurras-deployment-docker-compose/aurras-event-feed-substrate
 ```text
 docker-compose --project-name aurras up -d
 ```
+### Known Issues
+- wsk commands fails if tried running immediately after deploying openwhisk.
+
+    After deploying controller, invoker, kafka provider waits for the couchdb-setup container to complete db migration and stop.
+    Please keep an eye on the logs folder for the below logs
+    
+    - logs/controller.log
+    - logs/invoker.log
+    - logs/kafka-provider.log
 
 ### License
 Licensed under [Apache-2.0](./LICENSE)
