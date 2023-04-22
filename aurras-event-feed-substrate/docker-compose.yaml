@@ -20,4 +20,4 @@ networks:
     driver: bridge
   gateway:
     name: gateway
-    driver: bridge
+    external: true
