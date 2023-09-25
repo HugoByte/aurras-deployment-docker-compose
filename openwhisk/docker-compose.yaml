@@ -2,6 +2,7 @@ version: '3.8'
 services:
   db:
     image: apache/couchdb:2.3
+    platform: linux/amd64
     ports:
       - "5984:5984"
     environment:
@@ -12,6 +13,7 @@ services:
 
   zookeeper:
     image: zookeeper:3.4
+    platform: linux/amd64
     ports:
       - "2181:2181"
       - "2888:2888"
@@ -22,6 +24,7 @@ services:
 
   kafka:
     image: wurstmeister/kafka:0.11.0.1
+    platform: linux/amd64
     networks:
       - gateway
       - default
@@ -40,6 +43,7 @@ services:
 
   kafka-rest:
     image: confluentinc/cp-kafka-rest:3.3.1
+    platform: linux/amd64
     hostname: kafka-rest
     environment:
       - ACCESS_CONTROL_ALLOW_ORIGIN_DEFAULT="*"
@@ -57,6 +61,7 @@ services:
 
   kafka-topics-ui:
     image: landoop/kafka-topics-ui:0.9.3
+    platform: linux/amd64
     environment:
       - KAFKA_REST_PROXY_URL=http://kafka-rest:8082
       - KAFKA_REST_BOOTSTRAP_SERVERS=PLAINTEXT://kafka:9092
@@ -69,11 +74,13 @@ services:
 
   redis:
     image: redis:2.8
+    platform: linux/amd64
     ports:
       - "6379:6379"
 
   couchdb-setup:
     image: ddragosd/ansible:2.4.0.0-debian8
+    platform: linux/amd64
     working_dir: /openwhisk/ansible
     command: /bin/sh -c "ansible-playbook setup.yml >> /logs/couchdb-setup.log 2>&1 && ansible-playbook couchdb.yml --tags=ini >> /logs/couchdb-setup.log 2>&1 && ansible-playbook initdb.yml wipe.yml -e db_host=db.docker -e openwhisk_home=/openwhisk -e db_prefix=local_ >> /logs/couchdb-setup.log 2>&1"
     links:
@@ -87,6 +94,7 @@ services:
 
   controller:
     image: openwhisk/controller:nightly
+    platform: linux/amd64
     command: /bin/sh -c "while ping -c1 db.setup &>/dev/null; do sleep 1; done; echo 'CouchDB Setup Complete!' && exec /init.sh 0 >> /logs/controller.log 2>&1"
     links:
       - db:db.docker
@@ -126,6 +134,7 @@ services:
 
   apigateway:
     image: openwhisk/apigateway:nightly
+    platform: linux/amd64
     networks:
       - gateway
       - default
@@ -151,6 +160,7 @@ services:
 
   kafka-provider:
     image: openwhisk/kafkaprovider:nightly
+    platform: linux/amd64
     command: /bin/sh -c "cd KafkaFeedProvider && while ping -q -c1 db.setup >/dev/null; do sleep 1; done; python -u app.py >> /logs/kafka-provider.log 2>&1"
     links:
       - db:db.docker
@@ -170,6 +180,7 @@ services:
 
   invoker:
     image: openwhisk/invoker:nightly
+    platform: linux/amd64
     command: /bin/sh -c "while ping -c1 db.setup &>/dev/null; do sleep 1; done; sleep 1m && exec /init.sh --id 0 >> /logs/invoker.log 2>&1"
     privileged: true
     pid: "host"
